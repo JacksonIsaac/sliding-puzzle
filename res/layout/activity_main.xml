@@ -15,6 +15,15 @@
         android:layout_marginTop="40dp"
         android:layout_marginBottom="40dp"
         android:layout_gravity="center" />
+        
+        <!-- Camera button -->
+    <Button
+        android:id="@+id/use_camera_image_button"
+        android:onClick="useCamera"
+        android:text="Take picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
 	   
     <TextView 
         android:text="@string/select_included_image"
@@ -75,14 +84,6 @@
     </LinearLayout>
     </HorizontalScrollView>
 	    	        
-    <!--
-    Camera button
-    <Button
-        android:id="@+id/use_camera_image_button"
-        android:onClick="useCamera"
-        android:text="Take picture with camera"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp" />
-	-->
+    
+        
 </LinearLayout>
