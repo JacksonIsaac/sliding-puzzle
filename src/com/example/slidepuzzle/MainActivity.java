@@ -13,10 +13,10 @@ import com.example.slidepuzzle.R;
 
 public class MainActivity extends Activity {
 	
-	//private static final int CAMERA_REQUEST_CODE = 1000;
+	private static final int CAMERA_REQUEST_CODE = 100;
 	private static final int GALLERY_REQUEST_CODE = 2000;
-	//private final String CAMERA_FILE_NAME = "camera_file";
-	//private Uri mCapturedImageURI;
+	private final String CAMERA_FILE_NAME = "camera_file";
+	private Uri mCapturedImageURI;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,18 +67,21 @@ public class MainActivity extends Activity {
 		Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 		startActivityForResult(i, GALLERY_REQUEST_CODE); 
 	}
-	/*
+	
 	public void useCamera(View v) {
 		
-        ContentValues values = new ContentValues();  
-        values.put(MediaStore.Images.Media.TITLE, CAMERA_FILE_NAME);  
-        this.mCapturedImageURI = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, this.mCapturedImageURI);  
-        startActivityForResult(intent, CAMERA_REQUEST_CODE); 
+        	Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+		ContentValues values = new ContentValues();
+		values.put(android.provider.MediaStore.Images.Media.TITLE,CAMERA_FILE_NAME);
+		
+		mCapturedImageURI = getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+		cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,	mCapturedImageURI); 
+
+		startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+	
 	}
-	*/
+	
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{
@@ -92,16 +95,20 @@ public class MainActivity extends Activity {
 	    		imageFilePath = getFilePath(data.getData());
 	    	}
 	        break;
-	    /*
+	    
 	    case CAMERA_REQUEST_CODE:
-	    	if (resultCode == RESULT_CANCELED) {
-	            getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "TITLE = '" + CAMERA_FILE_NAME + "'", null);
-	    	}
-	    	else if (resultCode == RESULT_OK) {
-	    		imageFilePath = getFilePath(this.mCapturedImageURI);
-	    	}
-	    	break;
-	    */
+	    	if (resultCode == RESULT_OK) {
+				imageFilePath = getFilePath(this.mCapturedImageURI);
+				 
+				Toast.makeText(this, "Image saved" + data.getData(),Toast.LENGTH_LONG).show();
+			} else if (resultCode == RESULT_CANCELED) {
+				// User cancelled the image capture
+				getContentResolver().delete(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"TITLE = '" + CAMERA_FILE_NAME + "' ", null);
+			} else {
+				// Image capture failed, advise user
+			}
+
+			break;
 	    };
 	    
 	    if (imageFilePath != null) {
